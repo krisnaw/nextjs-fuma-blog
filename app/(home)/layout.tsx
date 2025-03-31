@@ -6,8 +6,8 @@ export default async function HomeLayout(
 ) {
 
     return (
-        <div className="max-w-3xl m-auto">
-            <main className="p-6 pt-3 md:pt-6 min-h-screen flex flex-col">
+        <div className="max-w-2xl m-auto">
+            <main className="min-h-screen p-6 pt-3 md:pt-6">
                 <Header />
                 {children}
                 <Footer/>
