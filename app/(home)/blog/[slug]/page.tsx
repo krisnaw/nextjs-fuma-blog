@@ -1,7 +1,7 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import {notFound} from 'next/navigation';
 
-import { blog } from '@/lib/source';
+import {blog} from '@/lib/source';
+import Link from "next/link";
 
 export default async function Page(props: {
     params: Promise<{ slug: string }>;
@@ -10,35 +10,44 @@ export default async function Page(props: {
     const page = blog.getPage([params.slug]);
 
     if (!page) notFound();
+
     const Mdx = page.data.body;
 
     console.log(Mdx);
 
     return (
         <>
-            <div className="container rounded-xl border py-12 md:px-8">
-                <h1 className="mb-2 text-3xl font-bold">{page.data.title}</h1>
-                <p className="mb-4 text-fd-muted-foreground">{page.data.description}</p>
-                <Link href="/blog">Back</Link>
+            <div>
+                <div>
+                    <Link href="/blog">Back</Link>
+                </div>
+
+                <div className="border-b pb-2 mb-4">
+                    <h1 className="text-2xl font-bold mb-1 dark:text-gray-100">
+                        {page.data.title}
+                    </h1>
+
+                    <p className="font-mono flex text-xs text-gray-500 dark:text-gray-500">
+                        <span className="flex-grow">
+                            <span>
+                                <span className="hover:text-gray-800 dark:hover:text-gray-400">
+                                    {page.data.author}
+                                </span>
+                                <span className="mx-2">|</span>
+                            </span>
+                            <span>
+                                {new Date(page.data.date).toDateString()}
+                            </span>
+                        </span>
+                    </p>
+                </div>
+
+                <div>
+                    Mdx content
+                    {page.data.description}
+
+                </div>
             </div>
-            <article className="container flex flex-col px-4 py-8">
-                <div className="prose min-w-0">
-
-
-                </div>
-                <div className="flex flex-col gap-4 text-sm">
-                    <div>
-                        <p className="mb-1 text-fd-muted-foreground">Written by</p>
-                        <p className="font-medium">{page.data.author}</p>
-                    </div>
-                    <div>
-                        <p className="mb-1 text-sm text-fd-muted-foreground">At</p>
-                        <p className="font-medium">
-                            {new Date(page.data.date).toDateString()}
-                        </p>
-                    </div>
-                </div>
-            </article>
         </>
     );
 }
